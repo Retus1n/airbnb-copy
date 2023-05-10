@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
@@ -8,9 +8,11 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import useRegisterModal from './hooks/useRegisterModal';
+import useLoginModal from './hooks/useLoginModal';
 import { Button, Heading, Input, Modal } from '@/ui';
 
 export const RegisterModal: FC = () => {
+  const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,6 +43,11 @@ export const RegisterModal: FC = () => {
         setIsLoading(false);
       });
   };
+
+  const toggle = useCallback(() => {
+    registerModal.onClose();
+    loginModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
@@ -81,8 +88,11 @@ export const RegisterModal: FC = () => {
       <div className='flex flex-row justify-center items-center gap-2'>
         <div>Already have an account?</div>
         <div
+          tabIndex={0}
+          role='button'
+          onKeyPress={toggle}
           className='text-black/75 cursor-pointer hover:underline'
-          onClick={registerModal.onClose}
+          onClick={toggle}
         >
           Log in
         </div>

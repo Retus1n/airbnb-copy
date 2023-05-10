@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
@@ -50,6 +50,11 @@ export const LoginModal: FC = () => {
     });
   };
 
+  const toggle = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
+
   const bodyContent = (
     <div className='flex flex-col gap-4'>
       <Heading title='Welcome back' subTitle='Login to you account!' />
@@ -79,12 +84,15 @@ export const LoginModal: FC = () => {
       <Button outline label='Continue with Google' icon={FcGoogle} />
       <Button outline label='Continue with Github' icon={AiFillGithub} />
       <div className='flex flex-row justify-center items-center gap-2'>
-        <div>Already have an account?</div>
+        <div>First time using Airbnb?</div>
         <div
+          tabIndex={0}
+          onKeyPress={toggle}
+          role='button'
           className='text-black/75 cursor-pointer hover:underline'
-          onClick={registerModal.onClose}
+          onClick={toggle}
         >
-          Log in
+          Create an account
         </div>
       </div>
     </div>
