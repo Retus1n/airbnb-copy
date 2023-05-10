@@ -2,7 +2,7 @@ import { Nunito } from 'next/font/google';
 import './globals.css';
 import { Header } from '@/layout';
 import { ClientOnly, ToastrProvider } from '@/providers';
-import { LoginModal, RegisterModal } from '@/ui';
+import { LoginModal, RegisterModal, RentModal } from '@/ui';
 import getCurrentUser from '@/utils/helpers/getCurrentUser';
 
 export const metadata = {
@@ -26,6 +26,7 @@ export default async function RootLayout({
         <ClientOnly>
           <ToastrProvider />
           <Header currentUser={currentUser} />
+          <RentModal />
           <LoginModal />
           <RegisterModal />
         </ClientOnly>

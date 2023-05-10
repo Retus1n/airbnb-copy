@@ -9,14 +9,15 @@ import { Avatar } from '@/components/ui';
 import { UserMenuItem } from './UserMenuItem/UserMenuItem';
 import useRegisterModal from '@/components/ui/Modals/hooks/useRegisterModal';
 import useLoginModal from '@/components/ui/Modals/hooks/useLoginModal';
+import useRentModal from '@/components/ui/Modals/hooks/useRentModal';
 
 interface UserMenuProps {
   currentUser?: User | null;
 }
-
-export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const router = useRouter();
 
+  const rentModal = useRentModal();
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
 
@@ -26,10 +27,22 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     setIsOpen((value) => !value);
   }, []);
 
+  const onRent = useCallback(() => {
+    if (!currentUser) {
+      loginModal.onOpen();
+    }
+
+    rentModal.onOpen();
+  }, [currentUser, loginModal, rentModal]);
+
   return (
     <div className='relative'>
       <div className='flex flex-row items-center gap-3'>
         <div
+          onKeyPress={onRent}
+          role='button'
+          tabIndex={0}
+          onClick={onRent}
           className='
             hidden
             md:block
@@ -46,6 +59,9 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           Airbnb your home
         </div>
         <div
+          tabIndex={0}
+          role='button'
+          onKeyPress={toggleOpen}
           onClick={toggleOpen}
           className='
           p-4
@@ -91,7 +107,10 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                 <UserMenuItem label='My favorites' onClick={() => {}} />
                 <UserMenuItem label='My reservations' onClick={() => {}} />
                 <UserMenuItem label='My properties' onClick={() => {}} />
-                <UserMenuItem label='Airbnb my home' onClick={() => {}} />
+                <UserMenuItem
+                  label='Airbnb my home'
+                  onClick={rentModal.onOpen}
+                />
                 <hr />
                 <UserMenuItem label='Logout' onClick={() => signOut()} />
               </>
@@ -107,3 +126,5 @@ export const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     </div>
   );
 };
+
+export default UserMenu;

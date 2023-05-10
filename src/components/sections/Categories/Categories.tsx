@@ -97,7 +97,7 @@ export const categories = [
   },
 ];
 
-export const Categories = () => {
+const Categories = () => {
   const params = useSearchParams();
   const category = params?.get('category');
   const pathname = usePathname();
@@ -131,3 +131,5 @@ export const Categories = () => {
     </Container>
   );
 };
+
+export default Categories;

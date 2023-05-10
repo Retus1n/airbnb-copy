@@ -1,7 +1,8 @@
 import { FC } from 'react';
 import { User } from '@prisma/client';
-import { Container, Logo, Search, UserMenu } from '@/layout';
-import { Categories } from '../../sections/Categories/Categories';
+import { Container, Logo, Search } from '@/layout';
+import UserMenu from '../UserMenu/UserMenu';
+import Categories from '@/components/sections/Categories/Categories';
 
 interface HeaderProps {
   currentUser?: User | null;
