@@ -5,3 +5,14 @@
 hr {
   @apply border-bgBorder;
 }
+
+.leaflet-bottom,
+.leaflet-control,
+.leaflet-pane,
+.leaflet-top {
+  z-index: 0 !important;
+}
+
+.leaflet-control-attribution {
+  display: none;
+}
